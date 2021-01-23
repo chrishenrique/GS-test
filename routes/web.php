@@ -1,0 +1,27 @@
+<?php
+
+use Illuminate\Support\Facades\Route;
+
+/*
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register web routes for your application. These
+| routes are loaded by the RouteServiceProvider within a group which
+| contains the "web" middleware group. Now create something great!
+|
+*/
+
+// APP
+$base = '/';
+Route::get('/', 'DashboardController@index')->name('dashboard');
+
+
+
+Route::resource($base.'clients', 'ClientsController');
+Route::resource($base.'units', 'UnitsController');
+Route::resource($base.'enterprises', 'EnterprisesController');
+Route::resource($base.'sales', 'SalesController');
+Route::resource($base.'salesman', 'SalesmanController');
+Route::resource($base.'technicalManagers','TechnicalManagersController');
