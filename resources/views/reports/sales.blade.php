@@ -96,7 +96,7 @@
                                         <p>Total Concluidas</p>
                                     </div>
                                     <div class="icon">
-                                        <i class="fas fa-building"></i>
+                                        <i class="fas fa-check"></i>
                                     </div>
                                 </div>
                             </div>
@@ -107,7 +107,7 @@
                                         <p>Total Pendentes</p>
                                     </div>
                                     <div class="icon">
-                                        <i class="fas fa-dollar-sign"></i>
+                                        <i class="fas fa-hand-paper"></i>
                                     </div>
                                 </div>
                             </div>
@@ -118,7 +118,7 @@
                                         <p>Total em Negociacao</p>
                                     </div>
                                     <div class="icon">
-                                        <i class="fas fa-cart-arrow-down"></i>
+                                        <i class="fas fa-hourglass-half"></i>
                                     </div>
                                 </div>
                             </div>
@@ -129,7 +129,7 @@
                                         <p>Total Perdidas</p>
                                     </div>
                                     <div class="icon">
-                                        <i class="fas fa-cart-arrow-down"></i>
+                                        <i class="fas fa-times"></i>
                                     </div>
                                 </div>
                             </div>
@@ -176,7 +176,7 @@
                     </div>
                 </div>
                 @include('layouts._without_items', ['items' => $sales])
-                {{ $sales->links('vendor.pagination.simple-default') }}
+                {{ $sales->links('vendor.pagination.bootstrap-4') }}
             </div>
         </div>
     </div>

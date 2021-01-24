@@ -83,7 +83,7 @@
                     </div>
                 </div>
                 @include('layouts._without_items', ['items' => $units])
-                {{ $units->links('vendor.pagination.simple-default') }}
+                {{ $units->links('vendor.pagination.bootstrap-4') }}
             </div>
         </div>
     </div>

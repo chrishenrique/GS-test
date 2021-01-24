@@ -62,7 +62,7 @@
                     </div>
                 </div>
                 @include('layouts._without_items', ['items' => $sales])
-                {{ $sales->links('vendor.pagination.simple-default') }}
+                {{ $sales->links('vendor.pagination.bootstrap-4') }}
             </div>
         </div>
     </div>
