@@ -1,6 +1,6 @@
 ## Projeto criado para teste de vaga em emprego.
 
-**[Demo](http://34.207.232.163/)**
+**[Demo](http://54.173.234.132/)**
 
 Este projeto consistem em apresentar em tempo hábil ao solicitado, o conhecimento na linguagem, boas práticas de código, estrutura de dados, modelagem de banco de dados, layout responsivo e amigavel, etc.
 
