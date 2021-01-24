@@ -38,6 +38,7 @@
                                 <tr>
                                     <th>#</th>
                                     <th>Unidade</th>
+                                    <th>Valor</th>
                                     <th>Status</th>
                                     <th>Vendida em</th>
                                     <th></th>
@@ -47,8 +48,9 @@
                                 @foreach($sales as $sale)
                                 <tr>
                                     <td>{{ $sale->id }}</td>
-                                    <td>{{ $sale->unit_id }}</td>
-                                    <td>{{ $sale->status }}</td>
+                                    <td>{{ $sale->unit->name }}</td>
+                                    <td>{{ Number::currency() }} {{ Number::toMoneyApp($sale->sold_by) }}</td>
+                                    <td>{{ $sale->status_name }}</td>
                                     <td>{{ $sale->created_at->format('d/m/Y') }}</td>
                                     <td>
                                         <a href="{{ route('sales.edit', $sale) }}" class="float-right">Editar</a>

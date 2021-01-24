@@ -128,12 +128,6 @@ class TechnicalManagersController extends Controller
                         ->with(['error' => trans('def.nok')]);
         }
 
-        if (!auth()->user()->isAdmin())
-        {
-            return redirect()->route('dashboard')
-                            ->with(['success' => trans('def.ok')]);
-        }
-
         return redirect()->route('technical_managers.index')->with(['success' => trans('def.ok')]);
     }
 

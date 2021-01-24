@@ -40,16 +40,16 @@
     </div>
     <div class="col-md-6">
         <div class="form-group">
-            <label for="state_code">Estado:</label>
-            <input autocomplete="off" id="state_code" type="text" class="form-control {{ $errors->has('state_code') ? 'is-invalid' : '' }}" name="state_code" value="{{ old('state_code', $enterprise->state_code) }}"> 
-            @include('layouts._field_error', array('field'=>'state_code'))
+            <label for="state_name">Estado:</label>
+            <input autocomplete="off" id="state_name" type="text" class="form-control {{ $errors->has('state_name') ? 'is-invalid' : '' }}" name="state_name" value="{{ old('state_name', $enterprise->state_name) }}"> 
+            @include('layouts._field_error', array('field'=>'state_name'))
         </div>
     </div>
     <div class="col-md-3">
         <div class="form-group">
-            <label for="city_code">Cidade:</label>
-            <input autocomplete="off" id="city_code" type="text" class="form-control {{ $errors->has('city_code') ? 'is-invalid' : '' }}" name="city_code" value="{{ old('city_code', $enterprise->city_code) }}"> 
-            @include('layouts._field_error', array('field'=>'city_code'))
+            <label for="city_name">Cidade:</label>
+            <input autocomplete="off" id="city_name" type="text" class="form-control {{ $errors->has('city_name') ? 'is-invalid' : '' }}" name="city_name" value="{{ old('city_name', $enterprise->city_name) }}"> 
+            @include('layouts._field_error', array('field'=>'city_name'))
         </div>
     </div>
 </div>
@@ -66,14 +66,14 @@
     <div class="col-md-4">
         <div class="form-group">
             <label for="begin_at">Data inicio:</label>
-            <input autocomplete="off" id="begin_at" type="text" class="form-control {{ $errors->has('begin_at') ? 'is-invalid' : '' }}" name="begin_at" value="{{ old('begin_at', $enterprise->begin_at) }}"> 
+            <input autocomplete="off" id="begin_at" type="date" class="form-control {{ $errors->has('begin_at') ? 'is-invalid' : '' }}" name="begin_at" value="{{$enterprise->begin_at ? $enterprise->begin_at->format('d/m/Y') : old('begin_at', $enterprise->begin_at) }}"> 
             @include('layouts._field_error', array('field'=>'begin_at'))
         </div>
     </div>
     <div class="col-md-4">
         <div class="form-group">
             <label for="technical_managers_id">Data fim:</label>
-            <input autocomplete="off" id="end_at" type="text" class="form-control {{ $errors->has('end_at') ? 'is-invalid' : '' }}" name="end_at" value="{{ old('end_at', $enterprise->end_at) }}"> 
+            <input autocomplete="off" id="end_at" type="date" class="form-control {{ $errors->has('end_at') ? 'is-invalid' : '' }}" name="end_at" value="{{$enterprise->end_at ? $enterprise->end_at->format('d/m/Y') : old('end_at', $enterprise->end_at) }}"> 
             @include('layouts._field_error', array('field'=>'end_at'))
         </div>
     </div>
@@ -82,7 +82,14 @@
     <div class="col-md-12">
         <div class="form-group">
             <label for="technical_managers_id">Responsavel tecnico:</label>
-            <input autocomplete="off" id="technical_managers_id" type="text" class="form-control {{ $errors->has('technical_managers_id') ? 'is-invalid' : '' }}" name="technical_managers_id" value="{{ old('technical_managers_id', $enterprise->technical_managers_id) }}"> 
+            <select id="technical-manager-search" class="form-control {{ $errors->has('technical_managers_id') ? 'is-invalid' : '' }}" name="technical_managers_id" required>
+                <option value="">[ Selecione ]</option>
+                @foreach ($techinicalManagers as $tec)
+                <option value="{{ $tec->id }}" @if($enterprise->technical_managers_id == $tec->id)selected="selected"@endif>
+                    {{ $tec->name }}
+                </option>
+                @endforeach
+            </select>  
             @include('layouts._field_error', array('field'=>'technical_managers_id'))
         </div>
     </div>

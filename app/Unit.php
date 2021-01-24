@@ -13,8 +13,8 @@ class Unit extends Model
      * Validation rules
      * @var array
      */
-    public static $rules = [
-        'name' => 'required|unique:units',
+    public $rules = [
+        'name' => 'required|unique:units,name',
         'unit_number' => 'required',
         'total_area' => 'required',
         'private_area' => 'required',
@@ -27,7 +27,7 @@ class Unit extends Model
      * Validation messages
      * @var array
      */
-    public static $messages = [
+    public $messages = [
         'required' => 'Esta informação é obrigatória',
         'name.unique' => 'Já existe uma unidade com este nome',
     ];
@@ -67,6 +67,7 @@ class Unit extends Model
         'has_roof',
         'sale_value',
         'bank_appraisal_value', // Valor avaliado pelo banco
+        'enterprise_id',
     ];
 
     /**
@@ -75,12 +76,17 @@ class Unit extends Model
      */
 
     /**
-     * Enterprises relation.
-     * @return BelongsToMany
+     * Enterprise relation.
+     * @return BelongsTo
      */
-    public function enterprises()
+    public function enterprise()
     {
-        return $this->belongsToMany('App\Enterprise');
+        return $this->belongsTo('App\Enterprise');
+    }
+
+    public function sale()
+    {
+        return $this->hasOne(Sale::class);
     }
 
     /*

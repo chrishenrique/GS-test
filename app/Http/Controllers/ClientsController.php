@@ -128,12 +128,6 @@ class ClientsController extends Controller
                         ->with(['error' => trans('def.nok')]);
         }
 
-        if (!auth()->user()->isAdmin())
-        {
-            return redirect()->route('dashboard')
-                            ->with(['success' => trans('def.ok')]);
-        }
-
         return redirect()->route('clients.index')->with(['success' => trans('def.ok')]);
     }
 

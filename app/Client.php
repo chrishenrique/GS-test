@@ -13,15 +13,15 @@ class Client extends Model
      * Validation rules
      * @var array
      */
-    public static $rules = [
-        'name' => 'required|unique:clients',
+    public $rules = [
+        'name' => 'required|unique:clients,name',
     ];
 
     /**
      * Validation messages
      * @var array
      */
-    public static $messages = [
+    public $messages = [
         'required' => 'Esta informação é obrigatória',
         'name.unique' => 'Já existe um cliente com este nome',
     ];

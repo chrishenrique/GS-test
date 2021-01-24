@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Repositories\EnterprisesRepo;
 use App\Forms\EnterprisesForm;
-use App\Enterprise;
+use App\{Enterprise, TechnicalManager};
 
 class EnterprisesController extends Controller
 {
@@ -44,6 +44,7 @@ class EnterprisesController extends Controller
     public function create()
     {
         $enterprise = new Enterprise();
+        $techinicalManagers = TechnicalManager::all();
 
         return  view('enterprises.create', get_defined_vars());
     }
@@ -97,6 +98,8 @@ class EnterprisesController extends Controller
      */
     public function edit(Enterprise $enterprise)
     {
+        $techinicalManagers = TechnicalManager::all();
+
         return  view('enterprises.edit', get_defined_vars());
     }
 
@@ -126,12 +129,6 @@ class EnterprisesController extends Controller
             return redirect()->back()
                         ->withInput()
                         ->with(['error' => trans('def.nok')]);
-        }
-
-        if (!auth()->user()->isAdmin())
-        {
-            return redirect()->route('dashboard')
-                            ->with(['success' => trans('def.ok')]);
         }
 
         return redirect()->route('enterprises.index')->with(['success' => trans('def.ok')]);

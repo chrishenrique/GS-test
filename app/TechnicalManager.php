@@ -13,15 +13,15 @@ class TechnicalManager extends Model
      * Validation rules
      * @var array
      */
-    public static $rules = [
-        'name' => 'required|unique:technical_managers',
+    public $rules = [
+        'name' => 'required|unique:technical_managers,name',
     ];
 
     /**
      * Validation messages
      * @var array
      */
-    public static $messages = [
+    public $messages = [
         'required' => 'Esta informação é obrigatória',
         'name.unique' => 'Já existe um responsavel tecnico com este nome',
     ];

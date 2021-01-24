@@ -15,15 +15,15 @@ class Salesman extends Model
      * Validation rules
      * @var array
      */
-    public static $rules = [
-        'name' => 'required|unique:salesman',
+    public $rules = [
+        'name' => 'required|unique:salesman,name',
     ];
 
     /**
      * Validation messages
      * @var array
      */
-    public static $messages = [
+    public $messages = [
         'required' => 'Esta informação é obrigatória',
         'name.unique' => 'Já existe um vendedor com este nome',
     ];

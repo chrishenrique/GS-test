@@ -48,6 +48,9 @@ class Sale extends Model
         'sold_by',
         'total_discounts',
         'status',
+        'client_id',
+        'salesman_id',
+        'unit_id',
     ];
 
     /**
@@ -72,26 +75,34 @@ class Sale extends Model
     }
 
     /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function unit()
+    {
+        return $this->belongsTo(Unit::class)->withTrashed();
+    }
+
+    /**
      * Scopes
      * ---------------------------------------------------------------------------------------------
      */
     
-    public function scopeDones($query)
+    public function scopeDone($query)
     {
         return $query->whereStatus(self::STATUS_DONE);
     }
 
-    public function scopePendings($query)
+    public function scopePending($query)
     {
         return $query->whereStatus(self::STATUS_PENDING);
     }
 
-    public function scopeNegotiations($query)
+    public function scopeNegotiation($query)
     {
         return $query->whereStatus(self::STATUS_NEGOTIATION);
     }
 
-    public function scopeLosts($query)
+    public function scopeLost($query)
     {
         return $query->whereStatus(self::STATUS_LOST);
     }
@@ -101,7 +112,14 @@ class Sale extends Model
      * ---------------------------------------------------------------------------------------------
      */
 
-    
+    /** 
+     * Get image path with url
+     * @return string | null
+     */
+    public function getStatusNameAttribute()
+    { 
+        return $this->getStatusName();
+    }
 
     /**
      * Biz methods
@@ -111,7 +129,7 @@ class Sale extends Model
     /** 
      * Get all status
      */
-    public function getStatus(): array
+    public static function getAllStatus(): array
     {
        return [
             self::STATUS_DONE =>  'Concluída',
@@ -127,7 +145,7 @@ class Sale extends Model
     public function getStatusName($status = null): string
     {
         $status = $status ?: $this->status;
-        $statuses = $this->getStatus();
+        $statuses = self::getAllStatus();
 
        return $statuses[$status];
     }

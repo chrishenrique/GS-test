@@ -25,6 +25,7 @@ class UnitsRepo extends Repo
         'has_roof',
         'sale_value',
         'bank_appraisal_value',
+        'enterprise_id',
     ];
 
     /** 
@@ -39,6 +40,7 @@ class UnitsRepo extends Repo
         'has_roof',
         'sale_value',
         'bank_appraisal_value',
+        'enterprise_id',
     ];
 
     /**

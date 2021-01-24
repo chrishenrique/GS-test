@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Repositories\UnitsRepo;
 use App\Forms\UnitsForm;
-Use App\Unit;
+Use App\{Unit, Enterprise};
 
 class UnitsController extends Controller
 {
@@ -44,6 +44,7 @@ class UnitsController extends Controller
     public function create()
     {
         $unit = new Unit();
+        $enterprises = Enterprise::all();
 
         return  view('units.create', get_defined_vars());
     }
@@ -97,6 +98,8 @@ class UnitsController extends Controller
      */
     public function edit(Unit $unit)
     {
+        $enterprises = Enterprise::all();
+        
         return  view('units.edit', get_defined_vars());
     }
 
@@ -126,12 +129,6 @@ class UnitsController extends Controller
             return redirect()->back()
                         ->withInput()
                         ->with(['error' => trans('def.nok')]);
-        }
-
-        if (!auth()->user()->isAdmin())
-        {
-            return redirect()->route('dashboard')
-                            ->with(['success' => trans('def.ok')]);
         }
 
         return redirect()->route('units.index')->with(['success' => trans('def.ok')]);
@@ -192,4 +189,11 @@ class UnitsController extends Controller
 
         return  view('units.trash', get_defined_vars());
     }
+
+    
+    public function getSaleValue($id)
+    {
+        return Unit::find($id)->sale_value ?: 0;
+    }
 }
+

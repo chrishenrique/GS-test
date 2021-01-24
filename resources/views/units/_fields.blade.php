@@ -2,7 +2,14 @@
     <div class="col-12">
         <div class="form-group">
             <label class="required" for="enterprise_id">Empreendimento:</label>
-            <input autocomplete="off" id="enterprise_id" type="text" class="form-control {{ $errors->has('enterprise_id') ? 'is-invalid' : '' }}" enterprise_id="enterprise_id" value="{{ old('enterprise_id', $unit->enterprise_id) }}"> 
+            <select id="enterprises-search" class="select2 form-control {{ $errors->has('enterprise_id') ? 'is-invalid' : '' }}" name="enterprise_id">
+                <option value="">[ Selecione ]</option>
+                @foreach ($enterprises as $ent)
+                <option value="{{ $ent->id }}" @if($unit->enterprise_id == $ent->id)selected="selected"@endif>
+                    {{ $ent->name }}
+                </option>
+                @endforeach
+            </select> 
             @include('layouts._field_error', array('field'=>'enterprise_id'))
         </div>
     </div>

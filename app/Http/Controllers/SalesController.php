@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Repositories\SalesRepo;
 use App\Forms\SalesForm;
-use App\Sale;
+use App\{Sale, Client, Salesman, Unit};
 
 class SalesController extends Controller
 {
@@ -44,7 +44,10 @@ class SalesController extends Controller
     public function create()
     {
         $sale = new Sale();
-        $status = $sale->getStatus();
+        $status = $sale->getAllStatus();
+        $clients = Client::all();
+        $salesman = Salesman::all();
+        $units = Unit::all();
 
         return  view('sales.create', get_defined_vars());
     }
@@ -98,6 +101,11 @@ class SalesController extends Controller
      */
     public function edit(Sale $sale)
     {
+        $status = $sale->getAllStatus();
+        $clients = Client::all();
+        $salesman = Salesman::all();
+        $units = Unit::all();
+
         return  view('sales.edit', get_defined_vars());
     }
 
@@ -127,12 +135,6 @@ class SalesController extends Controller
             return redirect()->back()
                         ->withInput()
                         ->with(['error' => trans('def.nok')]);
-        }
-
-        if (!auth()->user()->isAdmin())
-        {
-            return redirect()->route('dashboard')
-                            ->with(['success' => trans('def.ok')]);
         }
 
         return redirect()->route('sales.index')->with(['success' => trans('def.ok')]);

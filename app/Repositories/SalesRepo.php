@@ -20,6 +20,9 @@ class SalesRepo extends Repo
         'sold_by',
         'total_discounts',
         'status',
+        'client_id',
+        'salesman_id',
+        'unit_id',
     ];
 
     /** 
@@ -29,6 +32,9 @@ class SalesRepo extends Repo
         'sold_by',
         'total_discounts',
         'status',
+        'client_id',
+        'salesman_id',
+        'unit_id',
     ];
 
     /**
@@ -40,4 +46,46 @@ class SalesRepo extends Repo
     }
 
   
+    /**
+     * Setup filters on a received query
+     * @param QueryBuilder $query
+     * @param array $filters
+     */
+    protected function addFilters($query, array $filters = [], $complete = true)
+    {
+        foreach ($filters as $field => $value)
+        {
+            if ($value === null || $value === '')
+            {
+                continue;
+            }
+            elseif ($field == 'clientId')
+            {
+                $query->whereClientId($value);
+            }
+            elseif ($field == 'salesmanId')
+            {
+                $query->whereSalesmanId($value);
+            }
+            elseif ($field == 'beginAt')
+            {
+                
+                $query->whereHas('unit.enterprise', function($q) use ($value)
+                {
+                    $q->where('begin_at', '=', $value);  
+                });
+            }
+            elseif ($field == 'endAt')
+            {
+                $query->whereHas('unit.enterprise', function($q) use ($value)
+                {
+                    $q->where('end_at', '=', $value);  
+                });
+            }
+            elseif($complete)
+            {
+                $query->where($field, '=', $value);
+            }
+        }
+    }
 }

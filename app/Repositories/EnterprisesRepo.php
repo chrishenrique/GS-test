@@ -22,11 +22,12 @@ class EnterprisesRepo extends Repo
         'address',
         'neighborhood',
         'number',
-        'state_code',
-        'city_code',
+        'state_name',
+        'city_name',
         'construction_value',
         'begin_at',
         'end_at',
+        'technical_managers_id',
     ];
 
     /** 
@@ -38,11 +39,12 @@ class EnterprisesRepo extends Repo
         'address',
         'neighborhood',
         'number',
-        'state_code',
-        'city_code',
+        'state_name',
+        'city_name',
         'construction_value',
         'begin_at',
         'end_at',
+        'technical_managers_id',
     ];
 
     /**

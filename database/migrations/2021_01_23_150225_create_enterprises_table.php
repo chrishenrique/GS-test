@@ -20,8 +20,8 @@ class CreateEnterprisesTable extends Migration
             $table->string('address');
             $table->string('neighborhood');
             $table->integer('number')->nullable();
-            $table->string('state_code');
-            $table->string('city_code');
+            $table->string('state_name');
+            $table->string('city_name');
             $table->decimal('construction_value')->default(0);
             $table->date('begin_at')->nullable();
             $table->date('end_at')->nullable();

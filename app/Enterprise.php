@@ -14,8 +14,8 @@ class Enterprise extends Model
      * Validation rules
      * @var array
      */
-    public static $rules = [
-        'name' => 'required|unique:enterprises',
+    public $rules = [
+        'name' => 'required|unique:enterprises,name',
         'address' => 'required',
         'address_2' => 'required',
         'name' => 'required',
@@ -27,7 +27,7 @@ class Enterprise extends Model
      * Validation messages
      * @var array
      */
-    public static $messages = [
+    public $messages = [
         'required' => 'Esta informação é obrigatória',
         'name.unique' => 'Já existe um empreendimento com este nome',
     ];
@@ -66,11 +66,12 @@ class Enterprise extends Model
         'address',
         'neighborhood',
         'number',
-        'state_code',
-        'city_code',
+        'state_name',
+        'city_name',
         'construction_value',
         'begin_at',
         'end_at',
+        'technical_managers_id',
     ];
 
     /**
@@ -85,24 +86,6 @@ class Enterprise extends Model
     public function technicals()
     {
         return $this->belongsToMany('App\TechnicalManager');
-    }
-
-    /**
-     * City relation.
-     * @return BelongsTo
-     */
-    public function city()
-    {
-        return $this->belongsTo(City::class, 'city_code', 'code');
-    }
-
-    /**
-     * States relation.
-     * @return BelongsTo
-     */
-    public function state()
-    {
-        return $this->belongsTo(State::class, 'state_code', 'code');
     }
 
     /*
