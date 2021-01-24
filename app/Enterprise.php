@@ -64,7 +64,7 @@ class Enterprise extends Model
         'name',
         'cep',
         'address',
-        'address_2',
+        'neighborhood',
         'number',
         'state_code',
         'city_code',

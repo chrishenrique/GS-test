@@ -3,6 +3,7 @@
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
+use Arr;
 
 /**
  * CommomRepo 
@@ -61,7 +62,7 @@ abstract class CommonRepo {
      */
     public function create(array $input)
     {
-        $attrs = array_only($input, $this->fieldsToCreate);
+        $attrs = Arr::only($input, $this->fieldsToCreate);
 
         $model = new $this->model($attrs);
         if (!$model->save())
@@ -81,7 +82,7 @@ abstract class CommonRepo {
      */
     public function update(array $input, Model $model)
     {   
-        $attrs = array_only($input, $this->fieldsToUpdate);
+        $attrs = Arr::only($input, $this->fieldsToUpdate);
 
         $model->fill($attrs);
         if (!$model->save())

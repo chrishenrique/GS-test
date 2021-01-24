@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Repositories\ClientsRepo;
 use App\Forms\ClientsForm;
+use App\Client;
 
 class ClientsController extends Controller
 {
@@ -32,7 +33,7 @@ class ClientsController extends Controller
         $options = compact('first', 'term');
         $clients = $this->repo->byPage( $options);
 
-        return view('app.clients.index', get_defined_vars());
+        return  view('clients.index', get_defined_vars());
     }
 
     /**
@@ -44,7 +45,7 @@ class ClientsController extends Controller
     {
         $client = new Client();
 
-        return view('app.clients.create', get_defined_vars());
+        return  view('clients.create', get_defined_vars());
     }
 
     /**
@@ -85,7 +86,7 @@ class ClientsController extends Controller
      */
     public function show(Client $client)
     {
-        // return view('app.clients.show', compact('client'));
+        // return  view('clients.show', compact('client'));
     }
 
     /**
@@ -96,7 +97,7 @@ class ClientsController extends Controller
      */
     public function edit(Client $client)
     {
-        return view('app.clients.edit', get_defined_vars());
+        return  view('clients.edit', get_defined_vars());
     }
 
     /**
@@ -144,9 +145,26 @@ class ClientsController extends Controller
      */
     public function destroy(Client $client)
     {
-        $this->repo->destroy($client);
+        try
+        {
+            $result = $this->repo->delete($client);
 
-        return redirect()->route('clients.index')->with(['success' => trans('def.ok')]);
+            if (!$result)
+            {
+                return redirect()->back()
+                            ->withInput()
+                            ->with(['error' => trans('def.nok')]);
+            }
+
+            return redirect()->route('clients.index')
+                            ->with(['success' => trans('def.ok')]);
+        }
+        catch(Exception $e)
+        {
+            return redirect()->back()
+                            ->withInput()
+                            ->with(['error' => trans('def.nok')]);
+        }
     }
 
     /**
@@ -172,7 +190,7 @@ class ClientsController extends Controller
                                 ->orderBy('deleted_at', 'desc')
                                 ->paginate(20);
 
-        return view('app.clients.trasheds', get_defined_vars());
+        return  view('clients.trash', get_defined_vars());
     }
 
 }

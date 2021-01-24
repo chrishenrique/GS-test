@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Repositories\SalesRepo;
 use App\Forms\SalesForm;
+use App\Sale;
 
 class SalesController extends Controller
 {
@@ -32,7 +33,7 @@ class SalesController extends Controller
         $options = compact('first', 'term');
         $sales = $this->repo->byPage( $options);
 
-        return view('app.sales.index', get_defined_vars());
+        return  view('sales.index', get_defined_vars());
     }
 
     /**
@@ -43,8 +44,9 @@ class SalesController extends Controller
     public function create()
     {
         $sale = new Sale();
+        $status = $sale->getStatus();
 
-        return view('app.sales.create', get_defined_vars());
+        return  view('sales.create', get_defined_vars());
     }
 
     /**
@@ -85,7 +87,7 @@ class SalesController extends Controller
      */
     public function show(Sale $sale)
     {
-        // return view('app.sales.show', compact('sale'));
+        // return  view('sales.show', compact('sale'));
     }
 
     /**
@@ -96,7 +98,7 @@ class SalesController extends Controller
      */
     public function edit(Sale $sale)
     {
-        return view('app.sales.edit', get_defined_vars());
+        return  view('sales.edit', get_defined_vars());
     }
 
     /**
@@ -144,9 +146,26 @@ class SalesController extends Controller
      */
     public function destroy(Sale $sale)
     {
-        $this->repo->destroy($sale);
+        try
+        {
+            $result = $this->repo->delete($sale);
 
-        return redirect()->route('sales.index')->with(['success' => trans('def.ok')]);
+            if (!$result)
+            {
+                return redirect()->back()
+                            ->withInput()
+                            ->with(['error' => trans('def.nok')]);
+            }
+
+            return redirect()->route('sales.index')
+                            ->with(['success' => trans('def.ok')]);
+        }
+        catch(Exception $e)
+        {
+            return redirect()->back()
+                            ->withInput()
+                            ->with(['error' => trans('def.nok')]);
+        }
     }
 
     /**
@@ -172,7 +191,7 @@ class SalesController extends Controller
                                 ->orderBy('deleted_at', 'desc')
                                 ->paginate(20);
 
-        return view('app.sales.trasheds', get_defined_vars());
+        return  view('sales.trash', get_defined_vars());
     }
 
 }

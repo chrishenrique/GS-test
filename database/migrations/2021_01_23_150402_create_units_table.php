@@ -28,7 +28,7 @@ class CreateUnitsTable extends Migration
         });
 
         Schema::table('units', function (Blueprint $table) {
-            $table->foreignId('enterprises_id')->constrained('enterprises');
+            $table->foreignId('enterprise_id')->constrained('enterprises');
         });
     }
 
@@ -40,7 +40,7 @@ class CreateUnitsTable extends Migration
     public function down()
     {
         Schema::table('units', function (Blueprint $table) {
-            $table->dropForeign('enterprises_id_foreign');
+            $table->dropForeign('enterprise_id_foreign');
         });
 
         Schema::dropIfExists('units');

@@ -17,11 +17,28 @@ use Illuminate\Support\Facades\Route;
 $base = '/';
 Route::get('/', 'DashboardController@index')->name('dashboard');
 
+$ns = 'ClientsController';
+Route::get($base.'clients/trash', $ns.'@trash')->name('clients.trash');
+
+$ns = 'EnterprisesController';
+Route::get($base.'enterprises/trash', $ns.'@trash')->name('enterprises.trash');
+
+$ns = 'UnitsController';
+Route::get($base.'units/trash', $ns.'@trash')->name('units.trash');
+
+$ns = 'SalesController';
+Route::get($base.'sales/trash', $ns.'@trash')->name('sales.trash');
+
+$ns = 'SalesmanController';
+Route::get($base.'salesman/trash', $ns.'@trash')->name('salesman.trash');
+
+$ns = 'TechnicalManagersController';
+Route::get($base.'technical_managers/trash', $ns.'@trash')->name('technical_managers.trash');
 
 
 Route::resource($base.'clients', 'ClientsController');
-Route::resource($base.'units', 'UnitsController');
 Route::resource($base.'enterprises', 'EnterprisesController');
+Route::resource($base.'units', 'UnitsController');
 Route::resource($base.'sales', 'SalesController');
 Route::resource($base.'salesman', 'SalesmanController');
-Route::resource($base.'technicalManagers','TechnicalManagersController');
+Route::resource($base.'technical_managers','TechnicalManagersController');

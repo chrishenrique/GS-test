@@ -14,6 +14,6 @@ class DashboardController extends Controller
     public function index(Request $request)
     { 
 
-        return view('app.dashboard.index', get_defined_vars());
+        return  view('dashboard.index', get_defined_vars());
     }
 }

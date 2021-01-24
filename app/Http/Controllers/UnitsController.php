@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Repositories\UnitsRepo;
+use App\Forms\UnitsForm;
+Use App\Unit;
 
 class UnitsController extends Controller
 {
@@ -11,7 +14,7 @@ class UnitsController extends Controller
      *
      * @return void
      */
-    public function __construct(SalesRepo $repo, SalesForm $form)
+    public function __construct(UnitsRepo $repo, UnitsForm $form)
     {
         $this->repo = $repo;
         $this->form = $form;
@@ -28,9 +31,9 @@ class UnitsController extends Controller
         $first = $request->get('first');
         $term = $request->get('term');
         $options = compact('first', 'term');
-        $sales = $this->repo->byPage( $options);
+        $units = $this->repo->byPage( $options);
 
-        return view('app.sales.index', get_defined_vars());
+        return  view('units.index', get_defined_vars());
     }
 
     /**
@@ -40,9 +43,9 @@ class UnitsController extends Controller
      */
     public function create()
     {
-        $sale = new Sale();
+        $unit = new Unit();
 
-        return view('app.sales.create', get_defined_vars());
+        return  view('units.create', get_defined_vars());
     }
 
     /**
@@ -72,41 +75,41 @@ class UnitsController extends Controller
                         ->with(['error' => trans('def.nok')]);
         }
 
-        return redirect()->route('sales.index')->with(['success' => trans('def.ok')]);
+        return redirect()->route('units.index')->with(['success' => trans('def.ok')]);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Sale  $sale
+     * @param  \App\Unit  $unit
      * @return \Illuminate\Http\Response
      */
-    public function show(Sale $sale)
+    public function show(Unit $unit)
     {
-        // return view('app.sales.show', compact('sale'));
+        // return  view('units.show', compact('sale'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Sale  $sale
+     * @param  \App\Unit  $unit
      * @return \Illuminate\Http\Response
      */
-    public function edit(Sale $sale)
+    public function edit(Unit $unit)
     {
-        return view('app.sales.edit', get_defined_vars());
+        return  view('units.edit', get_defined_vars());
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Sale  $sale
+     * @param  \App\Unit  $unit
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Sale $sale)
+    public function update(Request $request, Unit $unit)
     {
-        $validator = $this->form->validate($request->all(), $sale);
+        $validator = $this->form->validate($request->all(), $unit);
 
         if ($validator->fails())
         {
@@ -116,7 +119,7 @@ class UnitsController extends Controller
         }
 
         $input = $this->form->normalizeToUpdate($request);
-        $result = $this->repo->update($input, $sale);
+        $result = $this->repo->update($input, $unit);
 
         if (!$result)
         {
@@ -131,24 +134,41 @@ class UnitsController extends Controller
                             ->with(['success' => trans('def.ok')]);
         }
 
-        return redirect()->route('sales.index')->with(['success' => trans('def.ok')]);
+        return redirect()->route('units.index')->with(['success' => trans('def.ok')]);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Sale  $sale
+     * @param  \App\Unit  $unit
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Sale $sale)
+    public function destroy(Unit $unit)
     {
-        $this->repo->destroy($sale);
+        try
+        {
+            $result = $this->repo->delete($unit);
 
-        return redirect()->route('sales.index')->with(['success' => trans('def.ok')]);
+            if (!$result)
+            {
+                return redirect()->back()
+                            ->withInput()
+                            ->with(['error' => trans('def.nok')]);
+            }
+
+            return redirect()->route('units.index')
+                            ->with(['success' => trans('def.ok')]);
+        }
+        catch(Exception $e)
+        {
+            return redirect()->back()
+                            ->withInput()
+                            ->with(['error' => trans('def.nok')]);
+        }
     }
 
     /**
-     * Search for sales.
+     * Search for units.
      * @return Response
      */
     public function search(Request $request)
@@ -166,10 +186,10 @@ class UnitsController extends Controller
      */
     public function trash()
     {
-        $sales = Sale::onlyTrashed()
+        $units = Unit::onlyTrashed()
                                 ->orderBy('deleted_at', 'desc')
                                 ->paginate(20);
 
-        return view('app.sales.trasheds', get_defined_vars());
+        return  view('units.trash', get_defined_vars());
     }
 }

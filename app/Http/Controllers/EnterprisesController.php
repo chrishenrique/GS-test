@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Repositories\EnterprisesRepo;
 use App\Forms\EnterprisesForm;
+use App\Enterprise;
 
 class EnterprisesController extends Controller
 {
@@ -32,7 +33,7 @@ class EnterprisesController extends Controller
         $options = compact('first', 'term');
         $enterprises = $this->repo->byPage( $options);
 
-        return view('app.enterprises.index', get_defined_vars());
+        return  view('enterprises.index', get_defined_vars());
     }
 
     /**
@@ -44,7 +45,7 @@ class EnterprisesController extends Controller
     {
         $enterprise = new Enterprise();
 
-        return view('app.enterprises.create', get_defined_vars());
+        return  view('enterprises.create', get_defined_vars());
     }
 
     /**
@@ -85,7 +86,7 @@ class EnterprisesController extends Controller
      */
     public function show(Enterprise $enterprise)
     {
-        // return view('app.enterprises.show', compact('enterprise'));
+        // return  view('enterprises.show', compact('enterprise'));
     }
 
     /**
@@ -96,7 +97,7 @@ class EnterprisesController extends Controller
      */
     public function edit(Enterprise $enterprise)
     {
-        return view('app.enterprises.edit', get_defined_vars());
+        return  view('enterprises.edit', get_defined_vars());
     }
 
     /**
@@ -144,9 +145,26 @@ class EnterprisesController extends Controller
      */
     public function destroy(Enterprise $enterprise)
     {
-        $this->repo->destroy($enterprise);
+        try
+        {
+            $result = $this->repo->delete($enterprise);
 
-        return redirect()->route('enterprises.index')->with(['success' => trans('def.ok')]);
+            if (!$result)
+            {
+                return redirect()->back()
+                            ->withInput()
+                            ->with(['error' => trans('def.nok')]);
+            }
+
+            return redirect()->route('enterprises.index')
+                            ->with(['success' => trans('def.ok')]);
+        }
+        catch(Exception $e)
+        {
+            return redirect()->back()
+                            ->withInput()
+                            ->with(['error' => trans('def.nok')]);
+        }
     }
 
     /**
@@ -172,7 +190,7 @@ class EnterprisesController extends Controller
                                 ->orderBy('deleted_at', 'desc')
                                 ->paginate(20);
 
-        return view('app.enterprises.trasheds', get_defined_vars());
+        return  view('enterprises.trash', get_defined_vars());
     }
 
 }

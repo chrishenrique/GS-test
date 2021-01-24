@@ -114,10 +114,10 @@ class Sale extends Model
     public function getStatus(): array
     {
        return [
-           'Concluída' => self::STATUS_COMPLETED,
-           'Pendente' => self::STATUS_PENDING,
-           'Em negociação' => self::STATUS_NEGOTIATION,
-           'Perdida' => self::STATUS_LOST,
+            self::STATUS_DONE =>  'Concluída',
+            self::STATUS_PENDING =>  'Pendente',
+            self::STATUS_NEGOTIATION =>  'Em negociação',
+            self::STATUS_LOST =>  'Perdida',
        ];
     }
 
@@ -127,12 +127,7 @@ class Sale extends Model
     public function getStatusName($status = null): string
     {
         $status = $status ?: $this->status;
-        $statuses = [
-            self::STATUS_COMPLETED =>  'Concluída',
-            self::STATUS_PENDING =>  'Pendente',
-            self::STATUS_NEGOTIATION =>  'Em negociação',
-            self::STATUS_LOST =>  'Perdida',
-        ];
+        $statuses = $this->getStatus();
 
        return $statuses[$status];
     }

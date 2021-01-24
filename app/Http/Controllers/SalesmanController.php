@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Repositories\SalesmanRepo;
 use App\Forms\SalesmanForm;
+use App\Salesman;
 
 class SalesmanController extends Controller
 {
@@ -32,7 +33,7 @@ class SalesmanController extends Controller
         $options = compact('first', 'term');
         $salesman = $this->repo->byPage( $options);
 
-        return view('app.salesman.index', get_defined_vars());
+        return  view('salesman.index', get_defined_vars());
     }
 
     /**
@@ -44,7 +45,7 @@ class SalesmanController extends Controller
     {
         $salesman = new Salesman();
 
-        return view('app.salesman.create', get_defined_vars());
+        return  view('salesman.create', get_defined_vars());
     }
 
     /**
@@ -85,7 +86,7 @@ class SalesmanController extends Controller
      */
     public function show(Salesman $salesman)
     {
-        // return view('app.salesman.show', compact('sale'));
+        // return  view('salesman.show', compact('sale'));
     }
 
     /**
@@ -96,7 +97,7 @@ class SalesmanController extends Controller
      */
     public function edit(Salesman $salesman)
     {
-        return view('app.salesman.edit', get_defined_vars());
+        return  view('salesman.edit', get_defined_vars());
     }
 
     /**
@@ -144,9 +145,26 @@ class SalesmanController extends Controller
      */
     public function destroy(Salesman $salesman)
     {
-        $this->repo->destroy($salesman);
+        try
+        {
+            $result = $this->repo->delete($salesman);
 
-        return redirect()->route('salesman.index')->with(['success' => trans('def.ok')]);
+            if (!$result)
+            {
+                return redirect()->back()
+                            ->withInput()
+                            ->with(['error' => trans('def.nok')]);
+            }
+
+            return redirect()->route('salesman.index')
+                            ->with(['success' => trans('def.ok')]);
+        }
+        catch(Exception $e)
+        {
+            return redirect()->back()
+                            ->withInput()
+                            ->with(['error' => trans('def.nok')]);
+        }
     }
 
     /**
@@ -168,11 +186,11 @@ class SalesmanController extends Controller
      */
     public function trash()
     {
-        $salesman = Sale::onlyTrashed()
+        $salesman = Salesman::onlyTrashed()
                                 ->orderBy('deleted_at', 'desc')
                                 ->paginate(20);
 
-        return view('app.salesman.trasheds', get_defined_vars());
+        return  view('salesman.trash', get_defined_vars());
     }
 
 }

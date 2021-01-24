@@ -22,6 +22,9 @@ return [
     'show' => 'Ver',
     'user' => 'Usuário',
     'back' => 'Voltar',
+    'success' => 'Sucesso',
+    'danger' => 'Erro',
+    'warning' => 'Atenção',
 
     
 ];

@@ -9,6 +9,8 @@ class Salesman extends Model
 {
     use SoftDeletes;
 
+    protected $table = 'salesman';
+
     /**
      * Validation rules
      * @var array

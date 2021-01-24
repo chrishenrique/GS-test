@@ -18,7 +18,7 @@ class CreateEnterprisesTable extends Migration
             $table->string('name');
             $table->integer('cep')->nullable();
             $table->string('address');
-            $table->string('address_2');
+            $table->string('neighborhood');
             $table->integer('number')->nullable();
             $table->string('state_code');
             $table->string('city_code');

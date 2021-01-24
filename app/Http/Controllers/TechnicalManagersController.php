@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Repositories\TechnicalManagersRepo;
 use App\Forms\TechnicalManagersForm;
+use App\TechnicalManager;
 
 class TechnicalManagersController extends Controller
 {
@@ -32,7 +33,7 @@ class TechnicalManagersController extends Controller
         $options = compact('first', 'term');
         $technicalManagers = $this->repo->byPage( $options);
 
-        return view('app.technical_managers.index', get_defined_vars());
+        return  view('technical_managers.index', get_defined_vars());
     }
 
     /**
@@ -44,7 +45,7 @@ class TechnicalManagersController extends Controller
     {
         $technicalManager = new TechnicalManager();
 
-        return view('app.technical_managers.create', get_defined_vars());
+        return  view('technical_managers.create', get_defined_vars());
     }
 
     /**
@@ -74,7 +75,7 @@ class TechnicalManagersController extends Controller
                         ->with(['error' => trans('def.nok')]);
         }
 
-        return redirect()->route('technicalManagers.index')->with(['success' => trans('def.ok')]);
+        return redirect()->route('technical_managers.index')->with(['success' => trans('def.ok')]);
     }
 
     /**
@@ -85,7 +86,7 @@ class TechnicalManagersController extends Controller
      */
     public function show(TechnicalManager $technicalManager)
     {
-        // return view('app.technical_managers.show', compact('technicalManager'));
+        // return  view('technical_managers.show', compact('technicalManager'));
     }
 
     /**
@@ -96,7 +97,7 @@ class TechnicalManagersController extends Controller
      */
     public function edit(TechnicalManager $technicalManager)
     {
-        return view('app.technical_managers.edit', get_defined_vars());
+        return  view('technical_managers.edit', get_defined_vars());
     }
 
     /**
@@ -133,7 +134,7 @@ class TechnicalManagersController extends Controller
                             ->with(['success' => trans('def.ok')]);
         }
 
-        return redirect()->route('technicalManagers.index')->with(['success' => trans('def.ok')]);
+        return redirect()->route('technical_managers.index')->with(['success' => trans('def.ok')]);
     }
 
     /**
@@ -144,9 +145,26 @@ class TechnicalManagersController extends Controller
      */
     public function destroy(TechnicalManager $technicalManager)
     {
-        $this->repo->destroy($technicalManager);
+        try
+        {
+            $result = $this->repo->delete($technicalManager);
 
-        return redirect()->route('technicalManagers.index')->with(['success' => trans('def.ok')]);
+            if (!$result)
+            {
+                return redirect()->back()
+                            ->withInput()
+                            ->with(['error' => trans('def.nok')]);
+            }
+
+            return redirect()->route('technical_managers.index')
+                            ->with(['success' => trans('def.ok')]);
+        }
+        catch(Exception $e)
+        {
+            return redirect()->back()
+                            ->withInput()
+                            ->with(['error' => trans('def.nok')]);
+        }
     }
 
     /**
@@ -172,6 +190,6 @@ class TechnicalManagersController extends Controller
                                 ->orderBy('deleted_at', 'desc')
                                 ->paginate(20);
 
-        return view('app.technical_managers.trasheds', get_defined_vars());
+        return  view('technical_managers.trash', get_defined_vars());
     }
 }
